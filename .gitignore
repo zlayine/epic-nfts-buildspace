@@ -7,3 +7,5 @@ typechain
 #Hardhat files
 cache
 artifacts
+privatekey.js
+hardhat.config.js
