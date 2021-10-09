@@ -10,9 +10,8 @@ const main = async () => {
   await txn.wait();
 
   // Mint another NFT for fun.
-  txn = await nftContract.makeAnEpicNFT();
-  // Wait for it to be mined.
-  await txn.wait();
+  let total = await nftContract.getTotalNFTsMintedSoFar();
+  console.log(total.toNumber());
 };
 
 const runMain = async () => {

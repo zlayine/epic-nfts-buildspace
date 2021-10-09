@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
-import { Base64 } from "./libraries/Base64.sol";
+import {Base64} from "./libraries/Base64.sol";
 
 contract MyEpicNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
@@ -19,6 +19,8 @@ contract MyEpicNFT is ERC721URIStorage {
     string[] secondWords = ["Head", "Arm", "Eye", "Leg"];
 
     string[] thirdWords = ["Thrower", "Shiner", "Leaver", "Holder"];
+
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
 
     constructor() ERC721("SquareNFT", "SQUARE") {
         console.log("This is my NFT contract. Woah!");
@@ -65,6 +67,7 @@ contract MyEpicNFT is ERC721URIStorage {
     }
 
     function makeAnEpicNFT() public {
+        require(_tokenIds.current() < 50, "Token achieved max count");
         uint256 newItemId = _tokenIds.current();
 
         string memory first = pickRandomFirstWord(newItemId);
@@ -107,5 +110,11 @@ contract MyEpicNFT is ERC721URIStorage {
             newItemId,
             msg.sender
         );
+
+        emit NewEpicNFTMinted(msg.sender, newItemId);
+    }
+
+    function getTotalNFTsMintedSoFar() public view returns (uint256) {
+        return _tokenIds.current();
     }
 }
